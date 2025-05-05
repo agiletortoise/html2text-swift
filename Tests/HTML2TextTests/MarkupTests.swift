@@ -149,4 +149,27 @@ final class MarkupTests: XCTestCase {
         XCTAssert(result == "5. First\n6. Second\n")
     }
 
+    /// Should remain as plain URL
+    func testNakedURL() throws {
+        let html = """
+https://test.com
+"""
+        let h = HTML2Text(baseurl: "")
+        h.inline_links = true
+        let result = h.main(data: html)
+        XCTAssert(result == "https://test.com\n")
+    }
+    
+    /// Case for `a` tag linking to the matching URL
+    /// Should be renderer as <wrappedURL>
+    func testAutomaticLink() throws {
+        let html = """
+<a href="https://github.com/svnscha/mcp-windbg">https://github.com/svnscha/mcp-windbg</a>
+"""
+        let h = HTML2Text(baseurl: "")
+        h.inline_links = true
+        let result = h.main(data: html)
+        XCTAssert(result == "<https://github.com/svnscha/mcp-windbg>\n")
+    }
+    
 }

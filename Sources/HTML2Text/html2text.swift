@@ -825,7 +825,8 @@ public class HTML2Text: NodeVisitor {
                     astack.append([:])
                 }
             } else {
-                maybe_automatic_link = nil
+                // resetting on close invalidates auto-links
+                // maybe_automatic_link = nil
                 maybe_linked_image = false
                 if astack.count > 0 {
                     if var a = astack.pop() {
